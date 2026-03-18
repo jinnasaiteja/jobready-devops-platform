@@ -29,3 +29,6 @@ def create_user(user: User):
     logger.info(f"Creating user: {user.name}")
     users.append(user.dict())
     return {"message": "User created", "user": user}
+@app.get("/")
+def root():
+    return {"message": "CI/CD deployment working"}
