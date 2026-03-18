@@ -3,3 +3,14 @@ app/venv/
 __pycache__/
 *.pyc
 .env
+
+# Terraform
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform.tfstate
+terraform.tfstate.*
+crash.log
+.terraform/
+*.tfstate.*
+*.tfstate

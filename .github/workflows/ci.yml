@@ -9,6 +9,8 @@ on:
 jobs:
     test:
         runs-on: ubuntu-latest
+        env:
+            FORCE_JAVASCRIPT_ACTIONs_TO_NODE24: true
 
         defaults:
             run:
@@ -29,4 +31,3 @@ jobs:
 
             - name: Run tests
               run: python -m pytest
-              
