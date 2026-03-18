@@ -1,13 +1,16 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
-# ...existing code...
 import logging
+from prometheus_fastapi_instrumentator import Instrumentator
 
 app = FastAPI()
 
 # Logging setup
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
+
+# enable Prometheus metrics
+Instrumentator().instrument(app).expose(app)
 
 # In-memory DB
 users = []
@@ -17,6 +20,7 @@ class User(BaseModel):
 
 @app.get("/health")
 def health():
+    logger.info("Health check endpoint hit")
     return {"status": "ok"}
 
 @app.get("/users")
