@@ -17,7 +17,7 @@ class User(BaseModel):
 @app.get("/health")
 def health():
     logger.info("Health check endpoint hit")
-    return {"status": "ok"}
+    return 1/0
 
 @app.get("/users")
 def get_users():
