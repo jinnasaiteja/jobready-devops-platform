@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from pydantic import BaseModel
+# ...existing code...
 import logging
 
 app = FastAPI()
@@ -16,8 +17,7 @@ class User(BaseModel):
 
 @app.get("/health")
 def health():
-    logger.info("Health check endpoint hit")
-    return 1/0
+    return {"status": "ok"}
 
 @app.get("/users")
 def get_users():
