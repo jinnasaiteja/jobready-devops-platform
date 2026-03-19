@@ -1,0 +1,11 @@
+replicaCount: 3
+
+image:
+  repository: 282048599244.dkr.ecr.us-east-1.amazonaws.com/jobready-fastapi
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 8000
