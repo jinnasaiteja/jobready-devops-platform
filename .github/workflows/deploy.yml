@@ -7,6 +7,7 @@ on:
 env:
   AWS_REGION: us-east-1
   ECR_REPOSITORY: jobready-fastapi
+  ECR_REGISTRY: 282048599244.dkr.ecr.us-east-1.amazonaws.com
 
 jobs:
     build-and-deploy:
@@ -14,29 +15,39 @@ jobs:
       steps:
         - name: Checkout code
           uses: actions/checkout@v4
+          with:
+            persist-credentials: true
+
         - name: Set image tag
           run: echo "IMAGE_TAG=${GITHUB_SHA}" >> $GITHUB_ENV
+
         - name: Configure AWS credentials
           uses: aws-actions/configure-aws-credentials@v4
           with:
             aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
             aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
             aws-region: ${{ env.AWS_REGION }}
+
         - name: Login to ECR
           uses: aws-actions/amazon-ecr-login@v2
+
         - name: Build Docker image
           run: |
             docker build -t $ECR_REPOSITORY:${IMAGE_TAG} ./app
+
         - name: Tag image for ECR
           run: |
             docker tag $ECR_REPOSITORY:$IMAGE_TAG \
               282048599244.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
+
         - name: Push image to ECR
           run: |
             docker push 282048599244.dkr.ecr.us-east-1.amazonaws.com/$ECR_REPOSITORY:$IMAGE_TAG
+        
         - name: Update Kubernetes manifest
           run: |
             sed -i "s|IMAGE_TAG|$IMAGE_TAG|g" k8s/deployment.yaml
+            
         - name: Commit and updated manifest
           run: |
             git config --global user.name "GitHub Actions"
