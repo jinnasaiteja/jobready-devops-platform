@@ -1,3 +1,5 @@
+permissions:
+  contents: write
 name: Deploy to EKS with Gitops
 on:
   push:
@@ -47,7 +49,7 @@ jobs:
         - name: Update Kubernetes manifest
           run: |
             sed -i "s|IMAGE_TAG|$IMAGE_TAG|g" k8s/deployment.yaml
-            
+
         - name: Commit and updated manifest
           run: |
             git config --global user.name "GitHub Actions"
