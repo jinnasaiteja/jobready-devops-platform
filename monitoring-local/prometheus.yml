@@ -2,6 +2,7 @@ global:
   scrape_interval: 15s
 
 scrape_configs:
-  - job_name: 'fastapi'
+  - job_name: "fastapi-eks"
+    metrics_path: /metrics
     static_configs:
-      - targets: ['host.docker.internal:8000']
+      - targets: ["a3ad8132d1c1f40eca4a5e3e76b3cf90-165990805.us-east-1.elb.amazonaws.com:80"]
